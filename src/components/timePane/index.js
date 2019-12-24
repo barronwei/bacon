@@ -2,6 +2,7 @@ import React from 'react';
 import TimeDropdown from './styled/TimeDropdown'
 import styled from 'styled-components';
 import styledMap from 'styled-map'
+import { Button, Icon } from 'semantic-ui-react'
 
 const Text = styled.p`
   text-align: center;
@@ -16,7 +17,14 @@ const Text = styled.p`
 `
 
 const DropDownContainer = styled.div`
-  margin: 0px 100px;  
+  margin: 10vmin 100px 100px 100px;  
+`
+
+const ButtonContainer = styled.div`
+  margin-top: 20vmin;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 `
 
 
@@ -31,10 +39,19 @@ const TimePane = () => {
         <TimeDropdown />
 
         <br />
-        
+
         <Text>Latest Time</Text>
         <TimeDropdown startTime={false} />
       </DropDownContainer>
+
+      <ButtonContainer>
+        <Button animated>
+          <Button.Content visible>Create Event</Button.Content>
+          <Button.Content hidden>
+            <Icon name='arrow right' />
+          </Button.Content>
+        </Button>
+      </ButtonContainer>
 
 
 
