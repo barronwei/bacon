@@ -12,6 +12,8 @@
     "react-infinite-calendar": "^2.3.1",
     "react-schedule-selector": "^1.0.3",
     "react-scripts": "3.3.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "styled-components": "^4.4.1",
     "styled-map": "^3.3.0"
   },

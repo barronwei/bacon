@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../components/input';
 import DatePicker from '../components/datePicker'
+import TimePane from '../components/timePane'
 import styled from 'styled-components'
 
 
@@ -28,9 +29,11 @@ const homePage = () => {
         <HalfPaneContainer>
 
           <DatePicker />
+          <TimePane />
 
 
-          {/* <div style={{ background: 'red', height: '300px', width: '100%' }} /> */}
+
+
 
 
         </HalfPaneContainer>
