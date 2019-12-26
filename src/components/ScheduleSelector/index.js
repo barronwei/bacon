@@ -109,19 +109,8 @@ export const preventScroll = (e) => {
   e.preventDefault()
 }
 
-export default class ScheduleSelector extends React.Component<PropsType, StateType> {
-  dates: Array<Array<Date>>
-  selectionSchemeHandlers: { [string]: (Date, Date, Array<Array<Date>>) => Date[] }
-cellToDate: Map < HTMLElement, Date >
-  documentMouseUpHandler: () => void
-    endSelection: () => void
-      handleTouchMoveEvent: (SyntheticTouchEvent<*>) => void
-        handleTouchEndEvent: () => void
-          handleMouseUpEvent: Date => void
-            handleMouseEnterEvent: Date => void
-              handleSelectionStartEvent: Date => void
-                gridRef: ?HTMLElement
-
+export default class ScheduleSelector extends React.Component {
+ 
   static defaultProps = {
   selection: [],
   selectionScheme: 'square',
@@ -142,7 +131,7 @@ cellToDate: Map < HTMLElement, Date >
   onChange: () => { }
 }
 
-constructor(props: PropsType) {
+constructor(props) {
   super(props)
 
   // Generate list of dates to render cells for
@@ -223,7 +212,7 @@ coordToIndex = (x, y) => {
 }
 
 
-renderTimeLabels = (): React.Element<*> => {
+renderTimeLabels = ()=> {
   const labels = [<DateLabel key={-1} />] // Ensures time labels start at correct location
   for (let t = this.props.minTime; t <= this.props.maxTime; t += 1) {
     labels.push(
@@ -235,7 +224,7 @@ renderTimeLabels = (): React.Element<*> => {
   return <Column style={{marginTop: this.props.timeLabelMargin}}>{labels}</Column>
 }
 
-renderDateColumn = (dayIndex: number, dayOfTimes: Array<Date>) => {
+renderDateColumn = (dayIndex, dayOfTimes) => {
 
   return (
 
@@ -268,7 +257,7 @@ shouldHighlight = s => {
 
 
 
-renderDateCellWrapper = (time: Date, dayIndex, timeIndex): React.Element<*> => {
+renderDateCellWrapper = (time, dayIndex, timeIndex) => {
 
   const stringified = stringify(dayIndex, timeIndex);
 
@@ -305,7 +294,7 @@ _onMouseMove(e) {
 }
 
 
-render(): React.Element <*> {
+render() {
   return(
     <Wrapper
       onMouseDown = {()=> { this.mouseDown = true}}

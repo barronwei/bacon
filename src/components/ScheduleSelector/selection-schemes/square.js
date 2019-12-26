@@ -5,8 +5,8 @@ import startOfDay from 'date-fns/start_of_day'
 
 import * as dateUtils from '../date-utils'
 
-const square = (selectionStart: ?Date, selectionEnd: ?Date, dateList: Array<Array<Date>>): Array<Date> => {
-  let selected: Array<Date> = []
+const square = (selectionStart, selectionEnd, dateList) => {
+  let selected = []
   if (selectionEnd == null) {
     if (selectionStart) selected = [selectionStart]
   } else if (selectionStart) {
