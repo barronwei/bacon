@@ -5,10 +5,6 @@ import TimePane from '../components/timePane'
 import styled from 'styled-components'
 
 
-const VerticalSplit = styled.div`
-  width: 100%
-`
-
 
 const HalfPaneContainer = styled.div`
   display: grid;
@@ -21,21 +17,11 @@ const homePage = () => {
   return (
     <div>
       <Input />
-      <div
-
-
-      >
+      <div>
 
         <HalfPaneContainer>
-
           <DatePicker />
           <TimePane />
-
-
-
-
-
-
         </HalfPaneContainer>
 
       </div>

@@ -1,12 +1,18 @@
 import React from 'react';
 import HomePage from './pages/homepage';
+import SchedulePage from './pages/schedulepage'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 
 const App = () => (
-  <div>
-     <HomePage />
-  </div>
+
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/:id" component={SchedulePage} />
+    </Switch>
+  </BrowserRouter>
 
 )
 

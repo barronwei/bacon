@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const TitleInput = styled.input`
+const FloatingInput = styled.input`
   font: 1.7rem "Helvetica Neue", serif;
   text-align: center;
 	background: #fff;
@@ -13,4 +13,4 @@ const TitleInput = styled.input`
   padding: 22px 40px;
 `
 
-export default TitleInput;
+export default FloatingInput;

@@ -1,13 +1,13 @@
 import React from 'react';
-import TitleInput from './styled/TitleInput'
+import FloatingInput from './styled/FloatingInput'
 import TitleInputContainer from './styled/TitleInputContainer';
 
 const titleInput = ({
   inputDefaultValue = 'New Event Name',
-  type = 'text'
+  title=false,
 }) => (
     <TitleInputContainer>
-      <TitleInput placeholder={inputDefaultValue} type={type} />
+      <FloatingInput placeholder={inputDefaultValue} />
     </TitleInputContainer>
   )
 
