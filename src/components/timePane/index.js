@@ -28,7 +28,7 @@ const ButtonContainer = styled.div`
 `
 
 
-const TimePane = ({startTime, setStartTime, setEndTime}) => {
+const TimePane = ({startTime, setStartTime, setEndTime, onSubmit}) => {
 
   return (
     <div>
@@ -41,11 +41,14 @@ const TimePane = ({startTime, setStartTime, setEndTime}) => {
         <br/>
 
         <Text>Latest Time</Text>
-        <TimeDropdown startTime={false} initialTime={startTime} setTime={setEndTime}/>
+        <TimeDropdown startTime={false} setTime={setEndTime}/>
       </DropDownContainer>
 
       <ButtonContainer>
-        <Button animated>
+        <Button 
+          animated 
+          onClick={onSubmit}
+        >
           <Button.Content visible>Create Event</Button.Content>
           <Button.Content hidden>
             <Icon name='arrow right' />

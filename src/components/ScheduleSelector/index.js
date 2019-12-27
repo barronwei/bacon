@@ -169,6 +169,10 @@ constructor(props) {
   this.highlighted = new Set();
 }
 
+shouldComponentUpdate(){
+  return this.mouseDown === true;
+}
+
 startSelection = (dayIndex, timeIndex) => {
   if (dayIndex < 0 || timeIndex < 0){
     return;
@@ -181,10 +185,6 @@ startSelection = (dayIndex, timeIndex) => {
 }
 
 endSelection = () => {
-
-  console.log(this.state.startCoord, [this.state.mouseX, this.state.mouseY], this.addMode)
-
-
   for (let x = Math.min(this.state.startCoord[0], this.state.mouseX); x <= Math.max(this.state.startCoord[0], this.state.mouseX); x++){
     for (let y = Math.min(this.state.startCoord[1], this.state.mouseY); y <= Math.max(this.state.startCoord[1], this.state.mouseY); y++){
       

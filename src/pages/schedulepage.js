@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import FloatingInput from '../components/Input/styled/FloatingInput'
-import AnimatedIconButton from '../components/buttons/AnimatedIconButton'
+import AnimatedIconButton from '../components/Buttons/AnimatedIconButton'
 import Text from '../components/Text/Text';
 import ScheduleSelector from '../components/ScheduleSelector';
 
