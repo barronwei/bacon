@@ -3331,7 +3331,7 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-date-fns@^1.27.2, date-fns@^1.29.0:
+date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
@@ -8671,12 +8671,6 @@ react-router@5.1.2:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-schedule-selector@sonny3690/react-schedule-selector#master:
-  version "1.0.3"
-  resolved "https://codeload.github.com/sonny3690/react-schedule-selector/tar.gz/4682303b8425f84bbe72ad78b0882ad6b7502e5a"
-  dependencies:
-    date-fns "^1.29.0"
 
 react-scripts@3.3.0:
   version "3.3.0"

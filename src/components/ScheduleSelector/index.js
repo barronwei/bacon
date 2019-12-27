@@ -4,16 +4,14 @@ import styled from 'styled-components'
 // Import only the methods we need from date-fns in order to keep build size small
 import addHours from 'date-fns/add_hours'
 import addDays from 'date-fns/add_days'
-import addMinutes from 'date-fns/add_days'
 import startOfDay from 'date-fns/start_of_day'
-import isSameMinute from 'date-fns/is_same_minute'
+
 import formatDate from 'date-fns/format'
 
 import { Text, Subtitle } from './typography'
 import colors from './colors'
 import selectionSchemes from './selection-schemes'
 import {stringify, unstringify, between} from './date-utils'
-import { isThisWeek } from 'date-fns';
 
 const formatHour = (hour) => {
   const h = hour === 0 || hour === 12 || hour === 24 ? 12 : hour % 12
@@ -52,13 +50,13 @@ const handleQuarterCellBorder = quarter => {
 
   switch (quarter) {
     case 0:
-      return "border-style: solid solid none none";
+      return "border-style: solid solid none solid";
     case 1:
-      return "border-style: none solid dashed solid";
+      return "border-style: none solid solid solid";
     case 2:
-      return "border-style: none solid none none";
+      return "border-style: none solid none solid";
     case 3:
-      return "border-style: none solid solid none";
+      return "border-style: none solid solid solid";
   }
 }
 
@@ -158,7 +156,6 @@ constructor(props) {
     startCoord: [-1, -1],
   }
 
-
   this.selectionSchemeHandlers = {
     linear: selectionSchemes.linear,
     square: selectionSchemes.square
@@ -170,9 +167,7 @@ constructor(props) {
 
   this.selected = new Set();
   this.highlighted = new Set();
-
 }
-
 
 startSelection = (dayIndex, timeIndex) => {
   if (dayIndex < 0 || timeIndex < 0){
@@ -180,13 +175,15 @@ startSelection = (dayIndex, timeIndex) => {
   }
 
   this.mouseDown = true;
-
   this.addMode = !this.selected.has(stringify(dayIndex, timeIndex));
 
   this.setState({startCoord: [dayIndex, timeIndex]});
 }
 
 endSelection = () => {
+
+  console.log(this.state.startCoord, [this.state.mouseX, this.state.mouseY], this.addMode)
+
 
   for (let x = Math.min(this.state.startCoord[0], this.state.mouseX); x <= Math.max(this.state.startCoord[0], this.state.mouseX); x++){
     for (let y = Math.min(this.state.startCoord[1], this.state.mouseY); y <= Math.max(this.state.startCoord[1], this.state.mouseY); y++){
@@ -251,7 +248,7 @@ shouldHighlight = s => {
 
   const highlighted = (this.mouseDown && between(this.state.startCoord[0], this.state.mouseX, x) && between(this.state.startCoord[1], this.state.mouseY, y));
   const selected = this.selected.has(s)
-  
+
   return (this.mouseDown && this.addMode && highlighted) || (!this.mouseDown && selected) || (selected && ! highlighted)
 }
 
@@ -282,10 +279,7 @@ renderDateCellWrapper = (time, dayIndex, timeIndex) => {
   )
 }
 
-_onMouseMove(e) {
-
-  let coords = this.coordToIndex(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-
+_onMouseMove = e => {
   const mouseX = e.nativeEvent.pageX - this.gridRef.offsetLeft - this.props.offsetLeft;
   const mouseY = e.nativeEvent.pageY - this.gridRef.offsetTop - this.props.offsetTop;
 
@@ -294,13 +288,13 @@ _onMouseMove(e) {
 }
 
 
-render() {
+render = () => {
   return(
     <Wrapper
       onMouseDown = {()=> { this.mouseDown = true}}
       onMouseUp = {()=> { this.mouseDown = false }}>
 
-  <Grid innerRef={el => { this.gridRef = el }}
+  <Grid ref={el => {this.gridRef = el;}}
     onMouseMove={this._onMouseMove.bind(this)}
     onMouseUp={() => this.endSelection()}
     >

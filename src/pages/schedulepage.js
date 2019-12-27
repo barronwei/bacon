@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import FloatingInput from '../components/input/styled/FloatingInput'
 import AnimatedIconButton from '../components/buttons/AnimatedIconButton'
 import Text from '../components/text/Text';
-import ScheduleSelector from 'react-schedule-selector';
+import ScheduleSelector from '../components/ScheduleSelector';
 
 
 const HalfPaneContainer = styled.div`
@@ -16,6 +16,7 @@ const HalfPaneContainer = styled.div`
 const SchedulePage = ({ match, title = 'Untitled Event' }) => {
 
   const meetingID = match.params.id;
+  let selection = new Set();
 
   return (
     <div>
@@ -46,15 +47,20 @@ const SchedulePage = ({ match, title = 'Untitled Event' }) => {
         <div>
           <Text header>
             Group's Availabilities
-        </Text>
+          </Text>
+          
           <ScheduleSelector
             linear
             minTime={12}
             maxTime={20}
             numDays={7}
-            selection={[]}
-            onChange={()=>console.log('wefew')}
-            dateFormat={'MMM D'}
+            selection={selection}
+            dateFormat={'MMM D'}   
+            dateCellHeight= {15}
+            dateCellWidth= {50}
+            offsetLeft={30}
+            offsetTop={60}
+            timeLabelMargin= {15}
           />
         </div>
 
