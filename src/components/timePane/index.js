@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react'
 import TimeDropdown from './styled/TimeDropdown'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import styledMap from 'styled-map'
 import { Button, Icon } from 'semantic-ui-react'
 
@@ -28,20 +28,20 @@ const ButtonContainer = styled.div`
 `
 
 
+const TimePane = ({startTime, setStartTime, setEndTime}) => {
 
-const TimePane = () => {
   return (
     <div>
       <Text header>Which Times Work?</Text>
 
       <DropDownContainer>
         <Text>Earliest Time</Text>
-        <TimeDropdown />
+        <TimeDropdown setTime={setStartTime} />
 
-        <br />
+        <br/>
 
         <Text>Latest Time</Text>
-        <TimeDropdown startTime={false} />
+        <TimeDropdown startTime={false} initialTime={startTime} setTime={setEndTime}/>
       </DropDownContainer>
 
       <ButtonContainer>
@@ -52,9 +52,6 @@ const TimePane = () => {
           </Button.Content>
         </Button>
       </ButtonContainer>
-
-
-
     </div>
   )
 

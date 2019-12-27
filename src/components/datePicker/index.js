@@ -29,14 +29,12 @@ const TextContainer = styled.p`
 
 
 const datePicker = ({
-  inputDefaultValue = 'New Event Name',
-  type = 'text'
+  setDateRange  
 }) => {
 
   const rangeCalendar = withRange(Calendar);
   let today = new Date();
-
-
+  
   return (
     <HeadContainer>
 
@@ -49,7 +47,8 @@ const datePicker = ({
             Component={rangeCalendar}
             width={500}
             height={300}
-            selected={today}
+            selected={false}
+            onSelect={setDateRange}
             minDate={today}
             locale={{
               headerFormat: 'MMM Do',

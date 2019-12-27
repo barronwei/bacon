@@ -264,7 +264,6 @@ renderDateCellWrapper = (time, dayIndex, timeIndex) => {
       role="presentation"
       margin={0}
       key={time.toISOString()}
-      // Mouse handlers
       onMouseDown={() => this.startSelection(dayIndex, timeIndex)}
     >
       <DateCell

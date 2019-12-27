@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import FloatingInput from '../components/input/styled/FloatingInput'
+import FloatingInput from '../components/Input/styled/FloatingInput'
 import AnimatedIconButton from '../components/buttons/AnimatedIconButton'
-import Text from '../components/text/Text';
+import Text from '../components/Text/Text';
 import ScheduleSelector from '../components/ScheduleSelector';
 
 
@@ -10,8 +10,6 @@ const HalfPaneContainer = styled.div`
   display: grid;
   grid-auto-flow: column;
 `
-
-
 
 const SchedulePage = ({ match, title = 'Untitled Event' }) => {
 
@@ -48,7 +46,7 @@ const SchedulePage = ({ match, title = 'Untitled Event' }) => {
           <Text header>
             Group's Availabilities
           </Text>
-          
+
           <ScheduleSelector
             linear
             minTime={12}

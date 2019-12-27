@@ -3,16 +3,17 @@ import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
 
-const numToTime = k => (Math.floor(k / 2) < 10 ? '0' : '') + Math.floor(k / 2) + ':' + (k % 2 === 1 ? '30' : '00');
-const options = [...Array(48).keys()].map(k => ({ key: k, value: k, text: numToTime(k) }))
+const numToTime = k => (k % 12 < 10 && k % 12 !== 0? '0' : '') + (k % 12 === 0? '12': k%12) + ':00 ' + (k < 12 ? 'AM' : 'PM');
+const options = [...Array(24).keys()].map((k,i) => ({ key: i, value: k, text: numToTime(k) }))
 
-const timePicker = ({ militaryTime = true, startTime = true }) => (
+const timePicker = ({ startTime = true, initialTime = undefined, setTime}) => (
   <Dropdown
     placeholder={`Select ${startTime ? 'Starting' : 'Ending'} Time`}
     fluid
     search
     selection
-    options={options}
+    onChange={setTime}
+    options={initialTime === undefined? options: options.filter(x => x > initialTime)}
   />
 )
 
