@@ -39,11 +39,3 @@ const SchedulePage = ({ match, title = 'Untitled Event' }) => {
 }
 
 export default SchedulePage;
-
-// {
-//   uuid: "i love foo",
-//   meetingID: '234234svvsd',
-//   password: "shalweflla",
-//   avail: [[123124, 34323], [234323, 5533]],
-
-// }
