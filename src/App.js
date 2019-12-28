@@ -1,6 +1,6 @@
 import React from 'react';
-import HomePage from './pages/HomePage';
-import SchedulePage from './pages/SchedulePage'
+import HomePage from './containers/home';
+import SchedulePage from './containers/schedule'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';

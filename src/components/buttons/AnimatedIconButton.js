@@ -8,12 +8,12 @@ const ButtonContainer = styled.div`
   display: flex;
 `
 
-const AnimatedButton = ({ label, animated = true, hasIcon = true, iconName = 'arrow right' }) => {
+const AnimatedButton = ({ label, animated = true, hasIcon = true, iconName = 'arrow right', onClick }) => {
 
   return (
 
     <ButtonContainer>
-      <Button animated={animated}>
+      <Button animated={animated} onClick={onClick}>
         <Button.Content visible>{label}</Button.Content>
         <Button.Content hidden>
           {hasIcon &&

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Input from '../components/Input';
-import DatePicker from '../components/DatePicker'
-import TimePane from '../components/TimePane'
+import Input from '../../components/Input';
+import DatePicker from '../../components/DatePicker'
+import TimePane from '../../components/TimePane'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { alertValidator, alertListValidator } from '../utils/validators';
+import { alertValidator, alertListValidator } from '../../utils/validators';
 
 
 const HalfPaneContainer = styled.div`
