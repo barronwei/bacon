@@ -1,5 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'; 
+
 
 // Import only the methods we need from date-fns in order to keep build size small
 import addHours from 'date-fns/add_hours'
@@ -12,6 +14,7 @@ import { Text, Subtitle } from './typography'
 import colors from './colors'
 import selectionSchemes from './selection-schemes'
 import { stringify, unstringify, between } from './date-utils'
+import { applyHighlight } from '../../redux/actions';
 
 const formatHour = (hour) => {
   const h = hour === 0 || hour === 12 || hour === 24 ? 12 : hour % 12
@@ -22,8 +25,8 @@ const formatHour = (hour) => {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
   user-select: none;
+  align-self: center;
 `
 
 const Grid = styled.div`
@@ -60,7 +63,6 @@ const handleQuarterCellBorder = quarter => {
   }
 }
 
-const cellVal = val => `${val}px`
 
 const DateCell = styled.div`
   height: ${props => props.dateCellHeight + 'px'};
@@ -107,14 +109,13 @@ export const preventScroll = (e) => {
   e.preventDefault()
 }
 
-export default class ScheduleSelector extends React.Component {
+class ScheduleSelector extends React.Component {
 
 
   /**
    * If selector is merely in display mode, then we have it so that
    * it displays whatever is in selection props.
    * 
-   * Selection is props where 
    * 
    */
 
@@ -175,12 +176,11 @@ export default class ScheduleSelector extends React.Component {
     this.addMode = false;
     this.mouseDown = false;
 
-    this.selected = new Set();
     this.highlighted = new Set();
   }
 
   shouldComponentUpdate() {
-    return this.mouseDown === true;
+    return !this.props.selectMode || this.mouseDown === true;
   }
 
   startSelection = (dayIndex, timeIndex) => {
@@ -189,22 +189,28 @@ export default class ScheduleSelector extends React.Component {
     }
 
     this.mouseDown = true;
-    this.addMode = !this.selected.has(stringify(dayIndex, timeIndex));
+    this.addMode = !this.props.selected.has(stringify(dayIndex, timeIndex));
 
     this.setState({ startCoord: [dayIndex, timeIndex] });
   }
 
   endSelection = () => {
-    for (let x = Math.min(this.state.startCoord[0], this.state.mouseX); x <= Math.max(this.state.startCoord[0], this.state.mouseX); x++) {
-      for (let y = Math.min(this.state.startCoord[1], this.state.mouseY); y <= Math.max(this.state.startCoord[1], this.state.mouseY); y++) {
 
-        if (this.addMode) {
-          this.selected.add(stringify(x, y))
-        } else {
-          this.selected.delete(stringify(x, y))
-        }
+    const [xMin, yMin, xMax, yMax] = [Math.min(this.state.startCoord[0], this.state.mouseX), Math.min(this.state.startCoord[1], this.state.mouseY), Math.max(this.state.startCoord[0], this.state.mouseX), Math.max(this.state.startCoord[1], this.state.mouseY)]
+
+    //this contains all the stringified coordinates of the highlighted coordinates
+    // const highlighted = new Set(Array(Math.abs(this.state.startCoord[0] - this.state.mouseX + 1)).fill().map((_, x) => (
+    //   Array(Math.abs(this.state.startCoord[1] - this.state.mouseY + 1)).fill().map((_, y) => stringify(x + xMin, y + yMin)))))
+    
+    let highlighted = new Set();
+    
+    for (let x = xMin; x <= xMax; x++) {
+      for (let y = yMin; y <= yMax; y++) {
+        highlighted.add(stringify(x, y))
       }
     }
+
+    this.props.dispatch(applyHighlight(highlighted, this.addMode))
 
     this.setState({ startCoord: [-1, -1] })
     this.mouseDown = false;
@@ -212,113 +218,121 @@ export default class ScheduleSelector extends React.Component {
 
 
 
-  // returns 
-  coordToIndex = (x, y) => {
-    return [Math.floor(x / this.props.dateCellWidth), Math.floor(y / this.props.dateCellHeight)]
-  }
-
-
-  renderTimeLabels = () => {
-    const labels = [<DateLabel key={-1} />] // Ensures time labels start at correct location
-    for (let t = this.props.minTime; t <= this.props.maxTime; t += 1) {
-      labels.push(
-        <TimeLabelCell key={t} dateCellHeight={this.props.dateCellHeight}>
-          <TimeText>{formatHour(t)}</TimeText>
-        </TimeLabelCell>
-      )
-    }
-    return <Column style={{ marginTop: this.props.timeLabelMargin }}>{labels}</Column>
-  }
-
-  renderDateColumn = (dayIndex, dayOfTimes) => {
-
-    return (
-
-      <Column
-        key={dayOfTimes[0]}
-        margin={this.props.margin}
-        dateCellWidth={this.props.dateCellWidth}
-        dateCellHeight={this.props.dateCellHeight}
-      >
-        <GridCell margin={this.props.margin} dateCellWidth={this.props.dateCellWidth} dateCellHeight={this.props.dateCellHeight}>
-          <DateLabel>{formatDate(dayOfTimes[0], this.props.dateFormat)}</DateLabel>
-          <DateLabel dayOfWeek>{formatDate(dayOfTimes[1], 'ddd')}</DateLabel>
-        </GridCell>
-        {dayOfTimes.map((time, i) => this.renderDateCellWrapper(time, dayIndex, i))}
-      </Column>
-
-    )
-  }
-
-
-  shouldHighlight = s => {
-
-
-
-
-    const [x, y] = unstringify(s);
-
-    const highlighted = (this.mouseDown && between(this.state.startCoord[0], this.state.mouseX, x) && between(this.state.startCoord[1], this.state.mouseY, y));
-    const selected = this.selected.has(s)
-
-    return (this.mouseDown && this.addMode && highlighted) || (!this.mouseDown && selected) || (selected && !highlighted)
-  }
-
-
-
-  renderDateCellWrapper = (time, dayIndex, timeIndex) => {
-
-    const stringified = stringify(dayIndex, timeIndex);
-
-    return (
-      <GridCell
-        className="rgdp__grid-cell"
-        role="presentation"
-        margin={0}
-        key={time.toISOString()}
-        onMouseDown={() => this.startSelection(dayIndex, timeIndex)}
-      >
-        <DateCell
-          selected={this.shouldHighlight(stringified)}
-          dateCellHeight={this.props.dateCellHeight}
-          quarter={time.getMinutes() / 15}
-          selectedColor={this.props.selectedColor}
-          unselectedColor={this.props.unselectedColor}
-          hoveredColor={this.props.hoveredColor}
-        />
-      </GridCell>
-    )
-  }
-
-  _onMouseMove = e => {
-
-    if(this.props.selection === false){
-      return;
-    }
-  
-    const mouseX = e.nativeEvent.pageX - this.gridRef.offsetLeft - this.props.offsetLeft;
-    const mouseY = e.nativeEvent.pageY - this.gridRef.offsetTop - this.props.offsetTop;
-
-    const [cellColIndex, cellRowIndex] = [Math.floor(mouseX / this.props.dateCellWidth), Math.floor(mouseY / this.props.dateCellHeight)];
-    this.setState({ mouseX: cellColIndex, mouseY: cellRowIndex });
-  }
-
-
-  render = () => {
-    return (
-      <Wrapper
-        onMouseDown={() => { this.mouseDown = true }}
-        onMouseUp={() => { this.mouseDown = false }}>
-
-
-        <Grid ref={el => { this.gridRef = el; }}
-          onMouseMove={this._onMouseMove.bind(this)}
-          onMouseUp={() => this.endSelection()}
-        >
-          {this.renderTimeLabels()}
-          {this.dates.map((e, i) => this.renderDateColumn(i, e))}
-        </Grid >
-      </Wrapper >
-    )
-  }
+// returns 
+coordToIndex = (x, y) => {
+  return [Math.floor(x / this.props.dateCellWidth), Math.floor(y / this.props.dateCellHeight)]
 }
+
+
+renderTimeLabels = () => {
+  const labels = [<DateLabel key={-1} />] // Ensures time labels start at correct location
+  for (let t = this.props.minTime; t <= this.props.maxTime; t += 1) {
+    labels.push(
+      <TimeLabelCell key={t} dateCellHeight={this.props.dateCellHeight}>
+        <TimeText>{formatHour(t)}</TimeText>
+      </TimeLabelCell>
+    )
+  }
+  return <Column style={{ marginTop: this.props.timeLabelMargin }}>{labels}</Column>
+}
+
+renderDateColumn = (dayIndex, dayOfTimes) => {
+
+  return (
+
+    <Column
+      key={dayOfTimes[0]}
+      margin={this.props.margin}
+      dateCellWidth={this.props.dateCellWidth}
+      dateCellHeight={this.props.dateCellHeight}
+    >
+      <GridCell margin={this.props.margin} dateCellWidth={this.props.dateCellWidth} dateCellHeight={this.props.dateCellHeight}>
+        <DateLabel>{formatDate(dayOfTimes[0], this.props.dateFormat)}</DateLabel>
+        <DateLabel dayOfWeek>{formatDate(dayOfTimes[1], 'ddd')}</DateLabel>
+      </GridCell>
+      {dayOfTimes.map((time, i) => this.renderDateCellWrapper(time, dayIndex, i))}
+    </Column>
+
+  )
+}
+
+
+shouldHighlight = s => {
+  const selected = this.props.selected.has(s)
+
+  if (this.props.selectMode === false){
+    return selected;
+  }
+
+  const [x, y] = unstringify(s);
+
+  const highlighted = (this.mouseDown && between(this.state.startCoord[0], this.state.mouseX, x) && between(this.state.startCoord[1], this.state.mouseY, y));
+
+  return (this.mouseDown && this.addMode && highlighted) || (!this.mouseDown && selected) || (selected && !highlighted)
+}
+
+
+
+renderDateCellWrapper = (time, dayIndex, timeIndex) => {
+
+  const stringified = stringify(dayIndex, timeIndex);
+
+  return (
+    <GridCell
+      className="rgdp__grid-cell"
+      role="presentation"
+      margin={0}
+      key={time.toISOString()}
+      onMouseDown={() => this.startSelection(dayIndex, timeIndex)}
+    >
+      <DateCell
+        selected={this.shouldHighlight(stringified)}
+        dateCellHeight={this.props.dateCellHeight}
+        quarter={time.getMinutes() / 15}
+        selectedColor={this.props.selectedColor}
+        unselectedColor={this.props.unselectedColor}
+        hoveredColor={this.props.hoveredColor}
+      />
+    </GridCell>
+  )
+}
+
+_onMouseMove = e => {
+
+  if (this.props.selection === false) {
+    return;
+  }
+
+  const mouseX = e.nativeEvent.pageX - this.gridRef.offsetLeft - this.props.offsetLeft;
+  const mouseY = e.nativeEvent.pageY - this.gridRef.offsetTop - this.props.offsetTop;
+
+  const [cellColIndex, cellRowIndex] = [Math.floor(mouseX / this.props.dateCellWidth), Math.floor(mouseY / this.props.dateCellHeight)];
+  this.setState({ mouseX: cellColIndex, mouseY: cellRowIndex });
+}
+
+
+render = () => {
+  return (
+    <Wrapper
+      onMouseDown={() => { this.mouseDown = true }}
+      onMouseUp={() => { this.mouseDown = false }}>
+
+
+      <Grid ref={el => { this.gridRef = el; }}
+        onMouseMove={this._onMouseMove.bind(this)}
+        onMouseUp={() => this.endSelection()}
+      >
+        {this.renderTimeLabels()}
+        {this.dates.map((e, i) => this.renderDateColumn(i, e))}
+      </Grid >
+    </Wrapper >
+  )
+}
+}
+
+// start of code change
+const mapStateToProps = (state) => {
+  return { selected: state.selection.selection };
+};
+
+export default connect(mapStateToProps)(ScheduleSelector);
