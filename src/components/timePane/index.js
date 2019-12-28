@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import styledMap from 'styled-map'
 import { Button, Icon } from 'semantic-ui-react'
 
+
 const Text = styled.p`
   text-align: center;
   font-size: ${styledMap`
@@ -37,7 +38,7 @@ const TimePane = ({startTime, setStartTime, setEndTime, onSubmit}) => {
       <DropDownContainer>
         <Text>Earliest Time</Text>
         <TimeDropdown setTime={setStartTime} />
-        
+
         <br/>
 
         <Text>Latest Time</Text>
