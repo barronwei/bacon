@@ -204,7 +204,6 @@ endSelection = () => {
 
 // returns 
 coordToIndex = (x, y) => {
-
   return [Math.floor(x / this.props.dateCellWidth), Math.floor(y / this.props.dateCellHeight)]
 }
 

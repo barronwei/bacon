@@ -28,13 +28,12 @@ const HomePage = () => {
     } else if (startTime === undefined || endTime === undefined) {
       alert('Please pick a time range');
 
-    } else if (!dateRange.hasOwnProperty('startTime') || !dateRange.hasOwnProperty('endTime')) {
-
+    } else if (startTime >= endTime){
+      alert('Please pick a valid time range');
+    }
+    else if (!dateRange.hasOwnProperty('startTime') || !dateRange.hasOwnProperty('endTime')) {
       alert('Please pick a date range!');
     } else {
-
-      console.log({ title, dateRange, startTime, endTime })
-
 
       history.push({
         pathname: 'redirect',
@@ -60,7 +59,7 @@ const HomePage = () => {
           }} />
           <TimePane
             startTime={startTime}
-            setStartTime={x => { console.log(x); startTime = x }}
+            setStartTime={x => {startTime = x }}
             setEndTime={x => { endTime = x }}
             onSubmit={onSubmit}
 

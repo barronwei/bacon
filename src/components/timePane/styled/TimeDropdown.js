@@ -12,7 +12,7 @@ const timePicker = ({ startTime = true, initialTime = undefined, setTime}) => (
     fluid
     search
     selection
-    onChange={setTime}
+    onChange={(_, {value}) => setTime(value)}
     options={initialTime === undefined? options: options.filter(x => x > initialTime)}
   />
 )

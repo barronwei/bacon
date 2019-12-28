@@ -37,7 +37,7 @@ const TimePane = ({startTime, setStartTime, setEndTime, onSubmit}) => {
       <DropDownContainer>
         <Text>Earliest Time</Text>
         <TimeDropdown setTime={setStartTime} />
-
+        
         <br/>
 
         <Text>Latest Time</Text>
