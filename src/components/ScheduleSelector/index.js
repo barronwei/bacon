@@ -40,7 +40,6 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   width: ${props => props.dateCellWidth + 'px'};
-
 `
 
 export const GridCell = styled.div`
@@ -310,9 +309,6 @@ _onMouseMove = e => {
   this.setState({ mouseX: cellColIndex, mouseY: cellRowIndex });
 }
 
-
-
-
 render = () => {
   return (
     <Wrapper
@@ -321,7 +317,7 @@ render = () => {
 
       <Grid ref={el => { this.gridRef = el; }}
         onMouseMove={this.props.selectMode? this._onMouseMove.bind(this): () => {}}
-        onMouseUp={this.props.selectMode? () => this.endSelection(): {}}
+        onMouseUp={this.props.selectMode? () => this.endSelection(): () => {}}
       >
         {this.renderTimeLabels()}
         {this.dates.map((e, i) => this.renderDateColumn(i, e))}

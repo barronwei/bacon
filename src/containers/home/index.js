@@ -5,6 +5,8 @@ import TimePane from '../../components/TimePane'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { alertValidator, alertListValidator } from '../../utils/validators';
+import axios from 'axios';
+import addHours from 'date-fns/add_hours'
 
 
 const HalfPaneContainer = styled.div`
@@ -23,7 +25,7 @@ const HomePage = () => {
 
   //validators and their respective messages 
 
-  
+
   const messages = [
     'Please pick a longer event title',
     'Please pick a time range',
@@ -44,6 +46,32 @@ const HomePage = () => {
       return;
 
     } else {
+
+      const timeRange = [addHours(dateRange.startTime, startTime), addHours(dateRange.endTime, endTime)];
+
+
+      axios({
+        method: 'post',
+        url: 'https://bacon-api.herokuapp.com/newmeetings',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        data: {
+          "user": "",
+          "pw": "",
+          "name": title,
+          "when": [new Date(), new Date()]
+        }
+      }).then(function (response) {
+        alert(response);
+      })
+        .catch(function (error) {
+          alert('There was an error in creating your event');
+          console.log(error);
+        });
+
+
       history.push({
         pathname: 'redirect',
         state: { title, dateRange, startTime, endTime }
