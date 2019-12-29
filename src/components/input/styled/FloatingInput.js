@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const FloatingInput = styled.input`
   font: 1.7rem "Helvetica Neue", serif;
-  text-align: center;
+  text-align: ${props => props.textAlignLeft? 'left' : 'center'};
 	background: #fff;
   color: #00000;
   border-radius: 10px;

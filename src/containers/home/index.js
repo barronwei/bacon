@@ -23,13 +23,7 @@ const HomePage = () => {
 
   //validators and their respective messages 
 
-  const validators = [
-    title.length < 3,
-    startTime === undefined || endTime === undefined,
-    startTime >= endTime,
-    !dateRange.hasOwnProperty('startTime') || !dateRange.hasOwnProperty('endTime')
-  ]
-
+  
   const messages = [
     'Please pick a longer event title',
     'Please pick a time range',
@@ -39,7 +33,14 @@ const HomePage = () => {
 
   const onSubmit = () => {
 
-    if (alertListValidator(validators, messages)){
+    const validators = [
+      title.length < 3,
+      startTime === undefined || endTime === undefined,
+      startTime >= endTime,
+      !dateRange.hasOwnProperty('startTime') || !dateRange.hasOwnProperty('endTime')
+    ]
+
+    if (alertListValidator(validators, messages)) {
       return;
 
     } else {

@@ -4,6 +4,8 @@
 const alertValidator = (condition, message) => {
 
   if(condition){
+
+    console.log(condition, message)
     alert(message);
     return true;
   }
@@ -12,14 +14,11 @@ const alertValidator = (condition, message) => {
 
 const alertListValidator = (conditions, messages) => {
 
-  conditions.forEach((c, i) => {
-
-    if (alertValidator(c, messages[i])) {
+  for (const i of conditions.keys()) {
+    if (alertValidator(conditions[i], messages[i])) {
       return true;
     }
-    
-  })
-
+  }
   return false;
 }
 

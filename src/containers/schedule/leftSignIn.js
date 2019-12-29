@@ -19,7 +19,12 @@ const SignInContainer = ({ setName }) => {
           </Text>
 
       <div style={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-        <FloatingInput placeholder='Enter Name' onChange={({ target }) => { name = target.value }} />
+      
+      <FloatingInput 
+        placeholder='Enter Name' 
+        textAlignLeft={true}
+        onChange={({ target }) => { name = target.value }} />
+      
       </div>
 
       <div style={{ marginTop: '60px' }}>
@@ -36,7 +41,7 @@ const LeftSignIn = () => {
 
   const [name, setName] = useState('');
 
-  if (name !== '') {
+  if (name === '') {
     return (<SignInContainer setName={setName} />)
   } else {
     return (<SelectorContainer name={name} />)

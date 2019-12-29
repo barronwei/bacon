@@ -138,7 +138,7 @@ class ScheduleSelector extends React.Component {
     offsetTop: 60,
     timeLabelMargin: 15,
     selectMode: true,
-    degreeColors: [colors.paleBlue, colors.lightBlue, colors.blue],
+    degreeColors: Array(8).map((_,x)=>`rgba(89, 154, 242, ${x/8})`), 
     onChange: () => { }
   }
 
@@ -311,16 +311,17 @@ _onMouseMove = e => {
 }
 
 
+
+
 render = () => {
   return (
     <Wrapper
       onMouseDown={() => { this.mouseDown = true }}
       onMouseUp={() => { this.mouseDown = false }}>
 
-
       <Grid ref={el => { this.gridRef = el; }}
-        onMouseMove={this._onMouseMove.bind(this)}
-        onMouseUp={() => this.endSelection()}
+        onMouseMove={this.props.selectMode? this._onMouseMove.bind(this): () => {}}
+        onMouseUp={this.props.selectMode? () => this.endSelection(): {}}
       >
         {this.renderTimeLabels()}
         {this.dates.map((e, i) => this.renderDateColumn(i, e))}

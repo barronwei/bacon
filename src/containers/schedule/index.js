@@ -10,12 +10,8 @@ const HalfPaneContainer = styled.div`
   grid-auto-flow: column;
 `
 
-
-
 const SchedulePage = ({ match, title = 'Untitled Event' }) => {
-
   const meetingID = match.params.id;
-  let selection = new Set();
 
   return (
     <div>
