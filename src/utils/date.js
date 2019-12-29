@@ -1,3 +1,3 @@
-export const dateToInt = date => date.getTime()
+export const dateToSeconds = date => date.getTime()
 
-export const intToDate = int => new Date(int)
+export const secondsToDate = int => new Date(int * 1000)

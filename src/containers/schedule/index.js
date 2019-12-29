@@ -13,6 +13,10 @@ const HalfPaneContainer = styled.div`
 const SchedulePage = ({ match, title = 'Untitled Event' }) => {
   const meetingID = match.params.id;
 
+  const useEffect = () => ({
+    
+  });
+
   return (
     <div>
       <Text header>

@@ -4,9 +4,11 @@ import DatePicker from '../../components/DatePicker'
 import TimePane from '../../components/TimePane'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { alertValidator, alertListValidator } from '../../utils/validators';
+import { alertListValidator } from '../../utils/validators';
 import axios from 'axios';
 import addHours from 'date-fns/add_hours'
+import { dateToSeconds } from '../../utils/date';
+import request from '../../utils/requests'
 
 
 const HalfPaneContainer = styled.div`
@@ -47,35 +49,53 @@ const HomePage = () => {
 
     } else {
 
-      const timeRange = [addHours(dateRange.startTime, startTime), addHours(dateRange.endTime, endTime)];
+      const timeRange = [addHours(dateRange.startTime, startTime), addHours(dateRange.endTime, endTime)].map(dateToSeconds)
 
+      const data = {
+        "user": "",
+        "pw": "",
+        "name": title,
+        "when": timeRange
+      }
 
-      axios({
-        method: 'post',
-        url: 'https://bacon-api.herokuapp.com/newmeetings',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        data: {
-          "user": "",
-          "pw": "",
-          "name": title,
-          "when": [new Date(), new Date()]
-        }
-      }).then(function (response) {
-        alert(response);
-      })
-        .catch(function (error) {
-          alert('There was an error in creating your event');
-          console.log(error);
-        });
-
-
-      history.push({
-        pathname: 'redirect',
+      const callback = res => history.push({
+        pathname: res.data,
         state: { title, dateRange, startTime, endTime }
       });
+
+      request(
+        {
+          method: 'post',
+          path: 'newmeetings',
+          data,
+          callback
+        }
+
+      )
+
+      // axios({
+      //   method: 'post',
+      //   url: 'https://bacon-api.herokuapp.com/newmeetings',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+
+      //   data: {
+      //     "user": "",
+      //     "pw": "",
+      //     "name": title,
+      //     "when": timeRange
+      //   }
+      // }).then(function (response) {
+      //   history.push({
+      //     pathname: response.data,
+      //     state: { title, dateRange, startTime, endTime }
+      //   });
+      // })
+      //   .catch(function (error) {
+      //     alert('There was an error in creating your event');
+      //     console.log(error);
+      //   });
     }
   }
 
