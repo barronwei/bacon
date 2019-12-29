@@ -13,4 +13,6 @@ const request = ({method, path, baseurl='https://bacon-api.herokuapp.com', heade
   })
 }
 
+export const pathToURL = (path, baseurl='https://bacon-api.herokuapp.com') => `${baseurl}/${path}`;
+
 export default request;

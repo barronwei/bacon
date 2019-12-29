@@ -63,6 +63,8 @@ const HomePage = () => {
         state: { title, dateRange, startTime, endTime }
       });
 
+
+      //make the request to generate a new event
       request(
         {
           method: 'post',
@@ -70,32 +72,7 @@ const HomePage = () => {
           data,
           callback
         }
-
       )
-
-      // axios({
-      //   method: 'post',
-      //   url: 'https://bacon-api.herokuapp.com/newmeetings',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-
-      //   data: {
-      //     "user": "",
-      //     "pw": "",
-      //     "name": title,
-      //     "when": timeRange
-      //   }
-      // }).then(function (response) {
-      //   history.push({
-      //     pathname: response.data,
-      //     state: { title, dateRange, startTime, endTime }
-      //   });
-      // })
-      //   .catch(function (error) {
-      //     alert('There was an error in creating your event');
-      //     console.log(error);
-      //   });
     }
   }
 

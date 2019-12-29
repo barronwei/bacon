@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Text from '../../components/Text/Text';
 import LeftSignIn from './leftSignIn'
 import SelectorContainer from './selectorContainer'
-
+import axios from 'axios';
+import { pathToURL } from '../../utils/requests'
 
 const HalfPaneContainer = styled.div`
   display: grid;
@@ -13,9 +14,19 @@ const HalfPaneContainer = styled.div`
 const SchedulePage = ({ match, title = 'Untitled Event' }) => {
   const meetingID = match.params.id;
 
-  const useEffect = () => ({
-    
-  });
+  useEffect(() => {
+    console.log(pathToURL(meetingID));
+
+    const fetchMeetingData = async () => {
+
+      let res = await fetch(pathToURL(meetingID));
+      let meetingInfo = await res.json();
+      
+      console.log(meetingInfo);
+    }
+
+    fetchMeetingData();
+  }, []);
 
   return (
     <div>
@@ -25,9 +36,9 @@ const SchedulePage = ({ match, title = 'Untitled Event' }) => {
 
       <HalfPaneContainer>
 
-        <LeftSignIn state/>
+        <LeftSignIn state />
 
-        <SelectorContainer 
+        <SelectorContainer
           name='Group'
           selectMode={false}
         />
