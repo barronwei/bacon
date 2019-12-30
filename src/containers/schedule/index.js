@@ -3,35 +3,43 @@ import styled from 'styled-components';
 import Text from '../../components/Text/Text';
 import LeftSignIn from './leftSignIn'
 import SelectorContainer from './selectorContainer'
-import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
 import { pathToURL } from '../../utils/requests'
+import {loadMeetingState} from '../../redux/actions'
 
 const HalfPaneContainer = styled.div`
   display: grid;
   grid-auto-flow: column;
 `
 
-const SchedulePage = ({ match, title = 'Untitled Event' }) => {
+const SchedulePage = ({ match }) => {
   const meetingID = match.params.id;
+  const dispatch = useDispatch();
+
+
+  let meetingStateLoaded = false;
+  let title = 'New Meeting'
+  
 
   useEffect(() => {
-    console.log(pathToURL(meetingID));
 
     const fetchMeetingData = async () => {
-
       let res = await fetch(pathToURL(meetingID));
       let meetingInfo = await res.json();
-      
-      console.log(meetingInfo);
+
+      dispatch(loadMeetingState(meetingInfo));
     }
 
     fetchMeetingData();
   }, []);
 
+
+  let meetingState = useSelector(state=>state.selection.meetingState)
+  
   return (
     <div>
       <Text header>
-        {title}
+        {meetingState.Name}
       </Text>
 
       <HalfPaneContainer>

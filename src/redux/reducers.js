@@ -16,13 +16,14 @@ const selection = handleActions(
       state,
       { payload: { meetingState } }
     ) => {
-      return Object.assign({}, state, { meetingState })
+      
+      return Object.assign({}, state, { meetingState: meetingState })
     }
 
   },
 
   // this sets the default state
-  { selection: new Set() }
+  { selection: new Set(), meetingState: false }
 );
 
 
