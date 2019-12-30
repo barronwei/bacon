@@ -57,10 +57,12 @@ const SchedulePage = ({ match }) => {
 
 
   let meetingState = useSelector(state=>state.selection.meetingState)
-
+  
   if (!meetingState){
     return (<div />)
   }
+
+  const scheduleProps = getSchedulerProps(meetingState);
   
   return (
     <div>
@@ -70,13 +72,14 @@ const SchedulePage = ({ match }) => {
 
       <HalfPaneContainer>
 
-        <LeftSignIn state />
+        <LeftSignIn 
+          {...scheduleProps}
+        />
 
         <SelectorContainer
           name='Group'
           selectMode={false}
-          {...getSchedulerProps(meetingState)}
-
+          {...scheduleProps}
         />
       </HalfPaneContainer>
 

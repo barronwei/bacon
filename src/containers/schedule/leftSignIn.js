@@ -35,16 +35,14 @@ const SignInContainer = ({ setName }) => {
 
 }
 
-
-
-const LeftSignIn = () => {
+const LeftSignIn = (scheduleProps) => {
 
   const [name, setName] = useState('');
 
   if (name === '') {
     return (<SignInContainer setName={setName} />)
   } else {
-    return (<SelectorContainer name={name} />)
+    return (<SelectorContainer name={name} {...scheduleProps}/>)
   }
 }
 

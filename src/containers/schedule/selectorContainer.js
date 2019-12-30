@@ -27,10 +27,6 @@ padding: 10px;
 margin-top: 10px;
 `
 
-
-
-
-
 const SelectorContainer = (
   {
     name,
