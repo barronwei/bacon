@@ -27,29 +27,42 @@ padding: 10px;
 margin-top: 10px;
 `
 
-const SelectorContainer = ({ name, selectMode=true}) => (
-<LeftPanel>
-  <Text header>
-    {`${name}'s Availabilities`}
-  </Text>
 
-  <ScheduleContainer>
-    <ScheduleSelector
-      selectMode={selectMode}
-      linear
-      minTime={12}
-      maxTime={20}
-      numDays={10}
-      selection={[]}
-      dateFormat={'MMM D'}
-      dateCellHeight={15}
-      dateCellWidth={50}
-      offsetLeft={30}
-      offsetTop={60}
-      timeLabelMargin={15}
-    />
-  </ScheduleContainer>
-</LeftPanel>
-)
+
+
+
+const SelectorContainer = (
+  {
+    name,
+    selectMode = true,
+    startDate = new Date(),
+    numDays = 0,
+    minTime = 0,
+    maxTime = 23,
+  }) => (
+    <LeftPanel>
+      <Text header>
+        {`${name}'s Availabilities`}
+      </Text>
+
+      <ScheduleContainer>
+        <ScheduleSelector
+          selectMode={selectMode}
+          linear
+          minTime={minTime}
+          maxTime={maxTime}
+          numDays={numDays}
+          startDate={startDate}
+          selection={[]}
+          dateFormat={'MMM D'}
+          dateCellHeight={15}
+          dateCellWidth={50}
+          offsetLeft={30}
+          offsetTop={60}
+          timeLabelMargin={15}
+        />
+      </ScheduleContainer>
+    </LeftPanel>
+  )
 
 export default SelectorContainer;
