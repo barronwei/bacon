@@ -14,9 +14,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, sagaMiddleware)))
 
-//run the saga middleware
-sagaMiddleware.run(rootSaga)
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import TimeDropdown from './styled/TimeDropdown'
+import TimeDropdown from './styled/timeDropdown'
 import styled from 'styled-components'
 import styledMap from 'styled-map'
 import { Button, Icon } from 'semantic-ui-react'

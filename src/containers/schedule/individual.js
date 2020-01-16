@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import Text from '../../components/Text/Text';
-
-import ScheduleSelector from '../../components/ScheduleSelector';
+import Text from '../../components/text/text';
+import request from '../../utils/requests'
+import ScheduleSelector from '../../components/scheduleSelector';
+import {dateToSeconds} from '../../utils/date'
 
 
 const ScheduleContainer = styled.div`
@@ -20,12 +21,31 @@ overflow-x: scroll;
 const LeftPanel = styled.div`
 align-items: center;
 justify-content: center;
-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.3);
 border-radius: 20px;
 width: 50vw;
 padding: 10px;
 margin-top: 10px;
 `
+
+const saveSelection = selection => {
+  
+  // convert to desired format
+  let sortedSelection = [...selection].map(dateToSeconds);
+
+  console.log(sortedSelection);
+  
+  request({
+    method: 'post',
+    url: 'setmeetings',
+    data: {
+      Name: '',
+      ID: '',
+      When: sortedSelection
+    }
+  })
+  
+}
+
 
 const SelectorContainer = (
   {
@@ -50,6 +70,7 @@ const SelectorContainer = (
           numDays={numDays}
           startDate={startDate}
           selection={[]}
+          saveSelection={saveSelection}
           dateFormat={'MMM D'}
           dateCellHeight={15}
           dateCellWidth={50}

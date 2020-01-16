@@ -3,10 +3,13 @@
 
 Bacon is a type of salt-cured pork. Bacon is prepared from several different cuts of meat, typically from the pork belly or from back cuts, which have less fat than the belly. It is eaten on its own, as a side dish (particularly in breakfasts), or used as a minor ingredient to flavour dishes (e.g., the club sandwich).
 
-
 ## Available Scripts
 
 In the project directory, you can run:
+
+In order to disable running with CORS error, try running Google Chrome with the following script.
+
+```open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security.```
 
 ### `yarn start`
 
@@ -41,3 +44,8 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+
+
+# Updates 
+
+Put a halt to its production, due to rendering issues in the project.
