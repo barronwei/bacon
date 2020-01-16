@@ -2,25 +2,11 @@ import React from 'react'
 import Text from '../../components/text/text';
 import request from '../../utils/requests'
 import ScheduleSelector from '../../components/scheduleSelector';
-import {dateToSeconds} from '../../utils/date'
-import {ScheduleContainer, LeftPanel} from '../styled';
+import { dateToSeconds, coordToTime } from '../../utils/date'
+import { ScheduleContainer, LeftPanel } from '../styled';
+import { unstringify } from '../../components/scheduleSelector/utils/date-utils'
 
-const saveSelection = selection => {
-  
-  // convert to desired format
-  let sortedSelection = [...selection].map(dateToSeconds);
 
-  request({
-    method: 'post',
-    url: 'setmeetings',
-    data: {
-      Name: '',
-      ID: '',
-      When: sortedSelection
-    }
-  })
-  
-}
 
 
 const SelectorContainer = (
@@ -31,7 +17,34 @@ const SelectorContainer = (
     numDays = 0,
     minTime = 0,
     maxTime = 23,
-  }) => (
+  }) => {
+
+  const saveSelection = selection => {
+
+    // convert to desired format
+
+    console.log(selection);
+
+    let sortedSelection = [...selection].map(s => coordToTime(...unstringify(s), startDate, minTime));
+    sortedSelection.sort();
+
+    console.log(sortedSelection);
+
+
+    request({
+      method: 'post',
+      url: 'setmeetings',
+      data: {
+        Name: '',
+        ID: '',
+        When: sortedSelection
+      }
+    })
+
+  }
+
+
+  return (
     <LeftPanel>
       <Text header>
         {`${name}'s Availabilities`}
@@ -57,5 +70,6 @@ const SelectorContainer = (
       </ScheduleContainer>
     </LeftPanel>
   )
+}
 
 export default SelectorContainer;
