@@ -10,6 +10,7 @@ import { secondsToDate } from '../../utils/date';
 import request from '../../utils/requests';
 import { dateToSeconds } from '../../utils/date';
 import Header from '../../components/header';
+import {HalfPaneContainer} from '../styled'
 
 const saveSelection = selection => {
 

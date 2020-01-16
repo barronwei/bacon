@@ -3,10 +3,11 @@ import Input from '../../components/input';
 import DatePicker from '../../components/datePicker'
 import TimePane from '../../components/timePane'
 import { alertListValidator } from '../../utils/validators';
-import { HalfPaneContainer } from './styled';
+
 import addHours from 'date-fns/add_hours'
 import { dateToSeconds } from '../../utils/date';
 import request from '../../utils/requests'
+import {HalfPaneContainer} from '../styled'
 
 // Contains the home page
 export default class HomePage extends React.Component {
@@ -38,8 +39,8 @@ export default class HomePage extends React.Component {
   }
 
   onSubmit = () => {
-    
-    const {title, dateRange, startTime, endTime} = this.meeting;
+
+    const { title, dateRange, startTime, endTime } = this.meeting;
 
 
     if (alertListValidator(this.validators, this.messages)) {
@@ -98,20 +99,17 @@ export default class HomePage extends React.Component {
           value={this.meeting.title}
           onChange={this.changeTitle}
         />
-        <div>
+        <HalfPaneContainer>
+          <DatePicker setDateRange={this.setDateRange} />
+          <TimePane
+            startTime={this.meeting.startTime}
+            setStartTime={this.setTimes(this.meeting.startTime)}
+            setEndTime={this.setTimes(this.meeting.endTime)}
+            onSubmit={this.onSubmit}
 
-          <HalfPaneContainer>
-            <DatePicker setDateRange={this.setDateRange} />
-            <TimePane
-              startTime={this.meeting.startTime}
-              setStartTime={this.setTimes(this.meeting.startTime)}
-              setEndTime={this.setTimes(this.meeting.endTime)}
-              onSubmit={this.onSubmit}
+          />
+        </HalfPaneContainer>
 
-            />
-          </HalfPaneContainer>
-
-        </div>
       </div>
     )
   }
