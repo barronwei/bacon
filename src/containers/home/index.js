@@ -22,28 +22,30 @@ export default class HomePage extends React.Component {
       startTime: undefined,
       endTime: undefined
     }
-
-    this.validators = [
-      this.meeting.title.length < 3,
-      this.meeting.startTime === undefined || this.meeting.endTime === undefined,
-      this.meeting.startTime >= this.meeting.endTime,
-      !this.meeting.dateRange.hasOwnProperty('startTime') || !this.meeting.dateRange.hasOwnProperty('endTime')
-    ];
-
     this.messages = [
       'Please pick a longer event title',
       'Please pick a time range',
       'Please pick a valid time range',
       'Please pick a date range!'
     ]
+
   }
+  
+  
 
   onSubmit = () => {
 
     const { title, dateRange, startTime, endTime } = this.meeting;
 
 
-    if (alertListValidator(this.validators, this.messages)) {
+    const validators = [
+      this.meeting.title.length < 3,
+      this.meeting.startTime === undefined || this.meeting.endTime === undefined,
+      this.meeting.startTime >= this.meeting.endTime,
+      !this.meeting.dateRange.hasOwnProperty('startTime') || !this.meeting.dateRange.hasOwnProperty('endTime')
+    ]
+
+    if (alertListValidator(validators, this.messages)) {
       return;
 
     } else {
@@ -82,6 +84,7 @@ export default class HomePage extends React.Component {
 
   changeTitle = e => {
     this.meeting.title = e.target.value;
+    console.log(e.target.value);
   }
 
   setDateRange = map => {
@@ -103,8 +106,8 @@ export default class HomePage extends React.Component {
           <DatePicker setDateRange={this.setDateRange} />
           <TimePane
             startTime={this.meeting.startTime}
-            setStartTime={this.setTimes(this.meeting.startTime)}
-            setEndTime={this.setTimes(this.meeting.endTime)}
+            setStartTime={this.setTimes('startTime')}
+            setEndTime={this.setTimes('endTime')}
             onSubmit={this.onSubmit}
 
           />
